@@ -26,8 +26,8 @@ public class UserOptions {
 
         if (option == 1) { // User views learning content - LearningContent.java
             // Display learning content - LearningContent.java
-            LearningContent learningContent = new LearningContent();
-            learningContent.displayContent(); // This method should be implemented in LearningContent class to show the content
+           LearningModule learningModule = new LearningModule();
+learningModule.startLearning(); // This method should be implemented in LearningContent class to show the content
         // Return to options menu after learning content
         this.choice(name, score);
         } 
