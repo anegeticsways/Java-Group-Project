@@ -1,4 +1,4 @@
-// Contributed by Abang Afiq Aiman
+// Contributed by Abang Afiq Aiman.
 // Role: Member 3 - Engagement Engineer
 // Description: Defines the criteria and thresholds for earning different rewards.
 
