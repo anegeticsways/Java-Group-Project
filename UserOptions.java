@@ -39,12 +39,17 @@ learningModule.startLearning(); // This method should be implemented in Learning
             for (User u : users) {
                 if (u.getName().equalsIgnoreCase(name)) {
                     u.setScore(latestScore); // update score
-                    User.saveAllUsers(users); // Save the updated user data to file
+                    User.saveAllUsers(users); // save the updated user data to file
                     break;
                 }
             }
-        // Return to options menu after answering quiz
-        this.choice(name, score); // Return to options menu after answering quiz
+            
+            // Contributed by Afiq (103041)
+            GamificationEngine engine = new GamificationEngine();
+            engine.displayPlayerStats(name, latestScore);
+
+            // Return to options menu after answering quiz
+            this.choice(name, latestScore);
         } 
         else if (option == 3) { //User views score board - Achievement.java
             // View score - Achievements.java
