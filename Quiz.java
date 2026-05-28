@@ -53,8 +53,8 @@ public class Quiz {
         displayQuestions();
     }
 
-    //Quiz questions will be displayed here
-    public void displayQuiz(String name, int score) {
+    //Store all quiz question here
+    public void loadQuestions() {
 
         questions.add(new Assessment(
             "What is e-waste?",
@@ -123,9 +123,9 @@ public class Quiz {
         ));
 
          questions.add(new Assessment(
-            "E-waste stands for:",
-            new String[]{"Electronic waste", "Energy water", "Easy waste", "Education waste"},
-            0
+        "What is the main purpose of e-waste recycling centres?",
+        new String[]{"Safely process discarded electronics", "Sell unhealthy food", "Burn electronics openly", "Store plastic bottles only"},
+        0
         ));
 
         questions.add(new Assessment(
@@ -140,14 +140,91 @@ public class Quiz {
             0
         ));
 
+        questions.add(new Assessment(
+            "True or False: Donating working electronics can reduce e-waste.",
+            new String[]{"True", "False"},
+            0
+        ));
 
-        JOptionPane.showMessageDialog(null, "Your current score is: " + calculateScore(), "Quiz Result", JOptionPane.INFORMATION_MESSAGE);
+        questions.add(new Assessment(
+            "Which of these is NOT e-waste?",
+            new String[]{"Apple peel", "Printer", "Tablet", "Charger"},
+            0
+        ));
 
-        // ... Additional quiz questions can be added here following the same format
+        questions.add(new Assessment(
+        "Why is informal burning of e-waste dangerous?",
+        new String[]{"It releases toxic gases", "It creates clean energy", "It improves air quality", "It reduces pollution"},
+        0
+        ));
+
+       questions.add(new Assessment(
+        "Which valuable material can be recovered from recycled electronic devices?",
+        new String[]{"Gold", "Plastic straws", "Rubber bands", "Paper clips"},
+        0
+        ));
+
+        questions.add(new Assessment(
+        "True or False: Throwing electronics into regular rubbish bins is recommended.",
+        new String[]{"True", "False"},
+        1
+        ));
+
+        questions.add(new Assessment(
+        "True or False: E-waste recycling is unnecessary because electronics naturally disappear over time.",
+        new String[]{"True", "False"},
+        1
+        ));
+        
     }
 
-    public int calculateScore() {
-        totalScore = tempScore; // Update total score based on quiz answers
-        return totalScore; // Return the total score to be updated in UserOptions.java
+    public void displayQuiz(String name, int score) {
+        int correctCount = 0;
+
+        //Warning message
+        JOptionPane.showMessageDialog(
+            null,
+            "Warning: Your score will reset if you retake the quiz.",
+            JOptionPane.WARNING_MESSAGE
+            );
+
+        //Loop through questions
+        for (int i = 0; i < questions.size(); i++) {
+            Assessment q = questions.get(i);
+
+            int answer = JOptionPane.showOptionDialog(
+                null,
+                q.getQuestion(),
+                "Quiz Question" + (i + 1),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                q.getOptions(),
+                q.getOptions()[0]
+            );
+
+            //Check answer
+            if (answer == q.getCorrectAnswer()) {
+
+                correctCount++;
+
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Correct! You earned points."
+                );
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Incorrect. \nThe correct answer is:" + q.getOptions()[q.getCorrectAnswer()]
+                    );
+            };
+        }
+
+        //Score calculation
+        totalScore = (correctCount * 100) / questions.size();
+
+        //Stars system
+        
     }
-}
