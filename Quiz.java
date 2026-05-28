@@ -1,34 +1,4 @@
 /*
-Contributed by Andrean (103325)
-Description:
-1. Quiz.java is responsible for managing the quiz functionality of the program
-2. It displays quiz questions to users and calculates scores based on user answers
-3. Involves data storage for quiz questions and answers, and calculation logic
-4. [NOT YET] Include elements like timers, marks/points earned and stars
-*/
-
-/*
-Thoughts & Comments:
-1. Since we needed to accommodate 20+ quiz questions, better if we can store correct answers selection in an array or list to make it easier to manage and calculate scores instead of hardcoding each question's correct answer in the code
-2. We can also consider adding more features such as providing feedback for each question or showing correct
-3. Can include warning message for user that score will reset everytime retakes the quiz to ensure score is updated correctly (within 0-100 marks)
-*/
-
-/*
-Proper marks calculation logic:
-
-n = number of questions
-fullmark = 100
-marks per question = fullmark / n
-
-Example: 
-n = 25 questions
-fullmark = 100
-marks per question = 100 / 25 = 4 marks per question
-
-*/
-
-/*
 Contributed by Ainin (102810)
 Role: Member 4 - Assessment Lead
 
@@ -50,7 +20,7 @@ public class Quiz {
     
     public Quiz() { // Constructor for Quiz class
         questions = new ArrayList<>();
-        displayQuestions();
+        loadQuestions();
     }
 
     //Store all quiz question here
@@ -186,7 +156,7 @@ public class Quiz {
             null,
             "Warning: Your score will reset if you retake the quiz.",
             JOptionPane.WARNING_MESSAGE
-            );
+        );
 
         //Loop through questions
         for (int i = 0; i < questions.size(); i++) {
@@ -218,13 +188,57 @@ public class Quiz {
                 JOptionPane.showMessageDialog(
                     null,
                     "Incorrect. \nThe correct answer is:" + q.getOptions()[q.getCorrectAnswer()]
-                    );
-            };
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            }
         }
 
         //Score calculation
         totalScore = (correctCount * 100) / questions.size();
 
-        //Stars system
-        
+               int pointsEarned = totalScore;
+
+        String stars;
+        if (totalScore >= 80) {
+            stars = "⭐⭐⭐";
+        } else if (totalScore >= 50) {
+            stars = "⭐⭐";
+        } else {
+            stars = "⭐";
+        }
+
+        GamificationEngine engine = new GamificationEngine();
+
+        String badge = engine.determineBadge(totalScore);
+        String message = engine.getMotivationalMessage(totalScore);
+        int pointsToNextBadge = engine.calculatePointsToNextBadge(totalScore);
+
+        String resultMessage =
+            "Quiz Completed!\n\n" +
+            "Name: " + name + "\n" +
+            "Correct Answers: " + correctCount + "/" + questions.size() + "\n" +
+            "Final Score: " + totalScore + "/100\n" +
+            "Points Earned: " + pointsEarned + "\n" +
+            "Stars Earned: " + stars + "\n" +
+            "Badge: " + badge + "\n\n" +
+            message + "\n";
+
+        if (pointsToNextBadge > 0) {
+            resultMessage += "You need " + pointsToNextBadge + " more points to reach the next badge.";
+        } else {
+            resultMessage += "You have reached the highest badge!";
+        }
+
+        JOptionPane.showMessageDialog(
+            null,
+            resultMessage,
+            "Quiz Result",
+            JOptionPane.INFORMATION_MESSAGE
+        );
     }
+
+    public int calculateScore() {
+        return totalScore;
+    }
+}
+        
