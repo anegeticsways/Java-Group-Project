@@ -28,37 +28,118 @@ marks per question = 100 / 25 = 4 marks per question
 
 */
 
+/*
+Contributed by Ainin (102810)
+Role: Member 4 - Assessment Lead
+
+Description:
+1. Quiz.java manages the quiz assessment part of the program.
+2. Displays 20+ e-waste quiz questions to users.
+3. Calculates the final score based on correct answers.
+4. Gives score-based motivational messages.
+5. Works together with Assessment.java to store question structure.
+*/
+
 import javax.swing.JOptionPane;
+import java.util.ArrayList; //contributed by Ainin (102810)
 
 public class Quiz {
 
-    int totalScore;
-    int tempScore;
+    private ArrayList<Assessment> questions;
+    private int totalScore;
     
-    public Quiz() {
-        // Constructor for Quiz class
+    public Quiz() { // Constructor for Quiz class
+        questions = new ArrayList<>();
+        displayQuestions();
     }
 
     //Quiz questions will be displayed here
     public void displayQuiz(String name, int score) {
-        // Example quiz question
-        String question1 = "What is eWaste?";
-        String[] options1 = {"A. Electronic waste", "B. A type of recycling", "C. A new technology", "D. None of the above"};
-        int answer1 = JOptionPane.showOptionDialog(null, question1, "Quiz Question 1", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options1, options1[0]);
-        // Check if answer is correct and update score
-        if (answer1 == 0) { // Assuming option A is correct
-            tempScore += 10; // Add points for correct answer
-            //calculateScore(); // Update total score
-        }
 
-        String question2 = "Why is it important to recycle eWaste?";
-        String[] options2 = {"A. To reduce environmental pollution", "B. To save resources", "C. To prevent health hazards", "D. All of the above"};
-        int answer2 = JOptionPane.showOptionDialog(null, question2, "Quiz Question 2", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options2, options2[0]);
-        // Check if answer is correct and update score
-        if (answer2 == 3) { // Assuming option D is correct
-            tempScore += 10; // Add points for correct answer
-            //calculateScore(); // Update total score
-        }
+        questions.add(new Assessment(
+            "What is e-waste?",
+            new String[] {"Electronic waste", "Food waste", "Plastic waste", "Paper waste"},
+            0
+        ));
+
+        questions.add(new Assessment(
+            "Which item is an example of e-waste?",
+            new String[]{"Old smartphone", "Banana peel", "Glass bottle", "Newspaper"},
+            0
+        ));
+
+         questions.add(new Assessment(
+            "Which SDG is related to responsible consumption and production?",
+            new String[]{"SDG 3", "SDG 6", "SDG 12", "SDG 15"},
+            2
+        ));
+
+        questions.add(new Assessment(
+            "Which material can be found in e-waste?",
+            new String[]{"Lead", "Sugar", "Cotton", "Wood"},
+            0
+        ));
+
+         questions.add(new Assessment(
+            "True or False: E-waste may contain toxic materials.",
+            new String[]{"True", "False"},
+            0
+        ));
+
+        questions.add(new Assessment(
+            "Improper e-waste disposal can pollute:",
+            new String[]{"Soil and water", "Only books", "Only clothes", "Nothing"},
+            0
+        ));
+
+         questions.add(new Assessment(
+            "Which is a responsible way to dispose of e-waste?",
+            new String[]{"Use certified recycling centres", "Throw into river", "Burn it", "Mix with food waste"},
+            0
+        ));
+
+        questions.add(new Assessment(
+            "True or False: Recycling e-waste helps reduce pollution.",
+            new String[]{"True", "False"},
+            0
+        ));
+
+        questions.add(new Assessment(
+            "Which device is considered e-waste when discarded?",
+            new String[]{"Laptop", "Plastic spoon", "Paper bag", "Food wrapper"},
+            0
+        ));
+
+        questions.add(new Assessment(
+            "Why should we repair electronics?",
+            new String[]{"To reduce e-waste", "To waste money", "To increase pollution", "To damage devices"},
+            0
+        ));
+
+         questions.add(new Assessment(
+            "True or False: Batteries can be part of e-waste.",
+            new String[]{"True", "False"},
+            0
+        ));
+
+         questions.add(new Assessment(
+            "E-waste stands for:",
+            new String[]{"Electronic waste", "Energy water", "Easy waste", "Education waste"},
+            0
+        ));
+
+        questions.add(new Assessment(
+            "What can toxic chemicals from e-waste affect?",
+            new String[]{"Human health", "Only furniture", "Only books", "Nothing"},
+            0
+        ));
+
+        questions.add(new Assessment(
+            "Which is better before buying a new device?",
+            new String[]{"Check if old device can be repaired", "Throw old device immediately", "Burn old device", "Hide old device"},
+            0
+        ));
+
 
         JOptionPane.showMessageDialog(null, "Your current score is: " + calculateScore(), "Quiz Result", JOptionPane.INFORMATION_MESSAGE);
 
