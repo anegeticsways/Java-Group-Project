@@ -206,7 +206,8 @@ public class Quiz {
         } else {
             stars = "⭐";
         }
-
+        
+        //Contributed by Afiq
         GamificationEngine engine = new GamificationEngine();
 
         String badge = engine.determineBadge(totalScore);
