@@ -27,7 +27,7 @@ public class UserOptions {
         if (option == 1) { // User views learning content - LearningContent.java
             // Display learning content - LearningContent.java
            LearningModule learningModule = new LearningModule();
-learningModule.startLearning(); // This method should be implemented in LearningContent class to show the content
+            learningModule.startLearning(); // This method should be implemented in LearningContent class to show the content
         // Return to options menu after learning content
         this.choice(name, score);
         } 
@@ -43,10 +43,6 @@ learningModule.startLearning(); // This method should be implemented in Learning
                     break;
                 }
             }
-            
-            // Contributed by Afiq (103041)
-            GamificationEngine engine = new GamificationEngine();
-            engine.displayPlayerStats(name, latestScore);
 
             // Return to options menu after answering quiz
             this.choice(name, latestScore);
