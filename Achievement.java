@@ -25,8 +25,15 @@ public class Achievement {
         //Call all users method to load user data
         ArrayList<User> users = User.loadUsers();
        
+        // Contributed by Afiq (103041)
+        GamificationEngine engine = new GamificationEngine();
+
         for (User u : users) {
-            System.out.println(u.getName() + " - " + u.getScore());
+            // Get the badge for each user's score
+            String badge = engine.determineBadge(u.getScore()); 
+            
+            // Print the name, score, AND badge to the console
+            System.out.println(u.getName() + " - " + u.getScore() + " Points | Rank: " + badge);
         }
     }    
 }
