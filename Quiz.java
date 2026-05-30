@@ -24,7 +24,7 @@ public class Quiz {
     }
 
     //Store all quiz question here
-    public void loadQuestions() {
+    private void loadQuestions() {
 
         questions.add(new Assessment(
             "What is e-waste?",
@@ -34,8 +34,8 @@ public class Quiz {
 
         questions.add(new Assessment(
             "Which item is an example of e-waste?",
-            new String[]{"Old smartphone", "Banana peel", "Glass bottle", "Newspaper"},
-            0
+            new String[]{"Banana peel", "Glass bottle", "Newspaper", "Old smartphone"},
+            3
         ));
 
          questions.add(new Assessment(
@@ -58,8 +58,8 @@ public class Quiz {
 
         questions.add(new Assessment(
             "Improper e-waste disposal can pollute:",
-            new String[]{"Soil and water", "Only books", "Only clothes", "Nothing"},
-            0
+            new String[]{"Only books", "Only clothes", "Soil and water", "Nothing"},
+            2
         ));
 
          questions.add(new Assessment(
@@ -76,8 +76,8 @@ public class Quiz {
 
         questions.add(new Assessment(
             "Which device is considered e-waste when discarded?",
-            new String[]{"Laptop", "Plastic spoon", "Paper bag", "Food wrapper"},
-            0
+            new String[]{"Plastic spoon", "Paper bag", "Food wrapper", "Laptop"},
+            3
         ));
 
         questions.add(new Assessment(
@@ -94,20 +94,20 @@ public class Quiz {
 
          questions.add(new Assessment(
         "What is the main purpose of e-waste recycling centres?",
-        new String[]{"Safely process discarded electronics", "Sell unhealthy food", "Burn electronics openly", "Store plastic bottles only"},
-        0
+        new String[]{"Sell unhealthy food", "Burn electronics openly","Safely process discarded electronics", "Store plastic bottles only"},
+        2
         ));
 
         questions.add(new Assessment(
             "What can toxic chemicals from e-waste affect?",
-            new String[]{"Human health", "Only furniture", "Only books", "Nothing"},
-            0
+            new String[]{"Only furniture", "Only books","Human health", "Nothing"},
+            2
         ));
 
         questions.add(new Assessment(
             "Which is better before buying a new device?",
-            new String[]{"Check if old device can be repaired", "Throw old device immediately", "Burn old device", "Hide old device"},
-            0
+            new String[]{"Throw old device immediately", "Check if old device can be repaired", "Burn old device", "Hide old device"},
+            1
         ));
 
         questions.add(new Assessment(
@@ -154,7 +154,8 @@ public class Quiz {
         //Warning message
         JOptionPane.showMessageDialog(
             null,
-            "Warning: Your score will reset if you retake the quiz.",
+            "Warning: Your score will reset if you retake the quiz.\nPlease answer all questions carefully.",
+            "Quiz Warning",
             JOptionPane.WARNING_MESSAGE
         );
 
@@ -165,7 +166,7 @@ public class Quiz {
             int answer = JOptionPane.showOptionDialog(
                 null,
                 q.getQuestion(),
-                "Quiz Question" + (i + 1),
+                "Quiz Question " + (i + 1),
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -174,20 +175,30 @@ public class Quiz {
             );
 
             //Check answer
-            if (answer == q.getCorrectAnswer()) {
-
-                correctCount++;
+            if (answer == JOptionPane.CLOSED_OPTION) {
+                    JOptionPane.showMessageDialog(
+                    null,
+                    "Quiz cancelled. Your score will not be updated.",
+                    "Quiz Cancelled",
+                    JOptionPane.INFORMATION_MESSAGE
+             );
+                totalScore = score;
+                return;    
+            }
+                if (answer == q.getCorrectAnswer()) {
+                    correctCount++;
 
                 JOptionPane.showMessageDialog(
                     null,
-                    "Correct! You earned points."
+                    "Correct! You earned points.",
+                    "Feedback",
+                    JOptionPane.INFORMATION_MESSAGE
                 );
-
             } else {
-
                 JOptionPane.showMessageDialog(
                     null,
-                    "Incorrect. \nThe correct answer is:" + q.getOptions()[q.getCorrectAnswer()]
+                    "Incorrect.\nThe correct answer is: " + q.getOptions()[q.getCorrectAnswer()],
+                    "Feedback",
                     JOptionPane.INFORMATION_MESSAGE
                 );
             }
@@ -195,8 +206,7 @@ public class Quiz {
 
         //Score calculation
         totalScore = (correctCount * 100) / questions.size();
-
-               int pointsEarned = totalScore;
+        int pointsEarned = totalScore;
 
         String stars;
         if (totalScore >= 80) {
@@ -206,8 +216,7 @@ public class Quiz {
         } else {
             stars = "⭐";
         }
-        
-        //Contributed by Afiq
+
         GamificationEngine engine = new GamificationEngine();
 
         String badge = engine.determineBadge(totalScore);
@@ -237,9 +246,9 @@ public class Quiz {
             JOptionPane.INFORMATION_MESSAGE
         );
     }
-
-    public int calculateScore() {
-        return totalScore;
-    }
+        public int calculateScore() {
+            return totalScore;
+        }
 }
+
         
