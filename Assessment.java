@@ -10,15 +10,21 @@ Description:
 */
 
 public class Assessment {
+
     private String question;
     private String[] options;
     private int correctAnswer;
+    private String questionType;
 
-    public Assessment(String question, String[] options, int correctAnswer) {
+    public Assessment(String question,
+                      String[] options,
+                      int correctAnswer,
+                      String questionType) {
+
         this.question = question;
         this.options = options;
         this.correctAnswer = correctAnswer;
-
+        this.questionType = questionType;
     }
 
     public String getQuestion() {
@@ -31,5 +37,9 @@ public class Assessment {
 
     public int getCorrectAnswer() {
         return correctAnswer;
+    }
+
+    public String getQuestionType() {
+        return questionType;
     }
 }
