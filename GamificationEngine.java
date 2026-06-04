@@ -1,6 +1,10 @@
-// Contributed by Abang Afiq Aiman.
-// Role: Member 3 - Engagement Engineer
-// Description: Manages logic for badges, points, and motivational elements.
+/*
+Contributed by Abang Afiq Aiman (103041)
+Role: Member 3 - Engagement Engineer
+
+Description: 
+Manages logic for badges, points, and motivational elements.
+*/
 
 import javax.swing.JOptionPane;
 
