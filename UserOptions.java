@@ -10,55 +10,65 @@ Description:
 5. If user still wanted to stay logged in the system, they can return to options menu after each activity instead of exiting the program
 */
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class UserOptions {
 
-    private UserAccess userAccess; // Interface for user data access
-
-   // private ArrayList<User> users; // List to hold user data for updating scores
+    private UserAccess userAccess;
 
     public UserOptions() {
-        this.userAccess = new UserFileAccess(); // Use file-based access for user data
-    }    
+        this.userAccess = new UserFileAccess();
+    }
+
+    public UserOptions(String name, int score) {
+        this.userAccess = new UserFileAccess();
+        choice(name, score);
+    }
 
     public void choice(String name, int score) {
-        //User Options [PARTIALLY COMPLETED - NEED TO LINK TO OTHER CLASSES]
-        String optionInput = JOptionPane.showInputDialog("Please select an option:\n1. View Learning Content\n2. Take Quiz\n3. View Score Board\n4. Exit");
+
+        String optionInput = JOptionPane.showInputDialog(
+                "Please select an option:\n"
+                + "1. View Learning Content\n"
+                + "2. Take Quiz\n"
+                + "3. View Score Board\n"
+                + "4. Exit");
+
         int option = Integer.parseInt(optionInput);
 
-        if (option == 1) { // User views learning content - LearningContent.java
-            // Display learning content - LearningContent.java
-           LearningModule learningModule = new LearningModule();
-            learningModule.startLearning(); // This method should be implemented in LearningContent class to show the content
-        // Return to options menu after learning content
-        this.choice(name, score);
-        } 
-        else if (option == 2) { // User takes quiz - Quiz.java
-            Quiz quiz = new Quiz();
-            quiz.displayQuiz(name, score); //Display quiz questions
-            int latestScore = quiz.calculateScore(); // Calculate score from quiz
-            userAccess.updateUserScore(name, latestScore); // Update user score in file
+        if (option == 1) {
 
-            // Return to options menu after answering quiz
-            this.choice(name, latestScore);
-        } 
-        else if (option == 3) { //User views score board - Achievement.java
-            // View score - Achievements.java
+            LearningModule learningModule = new LearningModule();
+            learningModule.startLearning();
+
+            this.choice(name, score);
+
+        } else if (option == 2) {
+
+            new Quiz(name, score);
+
+        } else if (option == 3) {
+
             Achievement achievement = new Achievement();
-            achievement.displayAchievements(); // Display all users score
-        // Return to options menu after viewing scores
-        this.choice(name, score);
-        } 
-        else if (option == 4) { // User exits the program
-            // Exit program
-            JOptionPane.showMessageDialog(null, "Thank you for using the eWaste Education and Awareness Site! Goodbye!");
+            achievement.displayAchievements();
+
+            this.choice(name, score);
+
+        } else if (option == 4) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Thank you for using the eWaste Education and Awareness Site! Goodbye!");
+
             System.exit(0);
-        } 
-        else { // Invalid option handling
-            JOptionPane.showMessageDialog(null, "Invalid option. Please try again.");
-            this.choice(name, score); // Restart the program to try again
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid option. Please try again.");
+
+            this.choice(name, score);
         }
     }
 }
