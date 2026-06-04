@@ -1,7 +1,6 @@
 /*
 Contributed by Andrean (103325)
 Role: Member 1 - Data and Storage Lead
-Tester: Andrean (103325)
 
 Description:
 1. UserOptions.java manages the user options menu after enter to system
@@ -12,7 +11,6 @@ Description:
 */
 
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 public class UserOptions {
 
@@ -29,49 +27,38 @@ public class UserOptions {
 
     public void choice(String name, int score) {
 
-        UIManager.put("OptionPane.background", AppConfig.BG);
-        UIManager.put("Panel.background", AppConfig.BG);
+        String optionInput = JOptionPane.showInputDialog(
+                "Please select an option:\n"
+                + "1. View Learning Content\n"
+                + "2. Take Quiz\n"
+                + "3. View Score Board\n"
+                + "4. Exit");
 
-        String[] options = {
-            "📚 Learning Content",
-            "📝 Take Quiz",
-            "🏆 Score Board",
-            "🚪 Exit"
-        };
+        int option = Integer.parseInt(optionInput);
 
-        int option = JOptionPane.showOptionDialog(
-                null,
-                "Welcome, " + name + "!\n\nChoose an option:",
-                "EcoLearn Menu",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]);
-
-        if (option == 0) {
+        if (option == 1) {
 
             LearningModule learningModule = new LearningModule();
             learningModule.startLearning();
 
             this.choice(name, score);
 
-        } else if (option == 1) {
+        } else if (option == 2) {
 
             new Quiz(name, score);
 
-        } else if (option == 2) {
+        } else if (option == 3) {
 
             Achievement achievement = new Achievement();
             achievement.displayAchievements();
 
             this.choice(name, score);
 
-        } else if (option == 3 || option == JOptionPane.CLOSED_OPTION) {
+        } else if (option == 4) {
 
             JOptionPane.showMessageDialog(
                     null,
-                    "Thank you for using EcoLearn!\n\nKeep supporting responsible e-waste management.");
+                    "Thank you for using the eWaste Education and Awareness Site! Goodbye!");
 
             System.exit(0);
 
@@ -84,4 +71,4 @@ public class UserOptions {
             this.choice(name, score);
         }
     }
-}
+}  
