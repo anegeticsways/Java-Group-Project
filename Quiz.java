@@ -15,8 +15,11 @@ Description:
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.SwingConstants;
 
-public class Quiz extends ModuleBase {
+public class Quiz extends JFrame implements ModuleAction {
+
+    private String userName;
 
     private ArrayList<Assessment> questions = new ArrayList<>();
     private UserFileAccess fileAccess = new UserFileAccess();
@@ -29,8 +32,14 @@ public class Quiz extends ModuleBase {
     private JPanel optionsPanel;
 
     public Quiz(String name, int score) {
-        super("Assessment Quiz", name, score);
+        super("Assessment Quiz");
+        this.userName = name;
         this.oldScore = score;
+
+        setSize(AppConfig.PHONE_WIDTH, AppConfig.PHONE_HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
 
         loadQuestions();
         openModule();
@@ -48,7 +57,7 @@ public class Quiz extends ModuleBase {
 
         if (confirm != JOptionPane.OK_OPTION) {
             dispose();
-            new UserOptions(name, oldScore);
+            new UserOptions(userName, oldScore);
             return;
         }
 
@@ -108,14 +117,13 @@ public class Quiz extends ModuleBase {
                 optionBtn.setFont(AppConfig.BUTTON_FONT);
                 optionBtn.setFocusPainted(false);
                 optionBtn.setHorizontalAlignment(SwingConstants.CENTER);
-                optionBtn.setVerticalAlignment(SwingConstants.CENTER);
 
                 int selectedAnswer = i;
                 optionBtn.addActionListener(e -> checkAnswer(selectedAnswer));
 
                 optionsPanel.add(optionBtn);
         }
-
+        
         optionsPanel.revalidate();
         optionsPanel.repaint();
     }
@@ -146,11 +154,11 @@ public class Quiz extends ModuleBase {
 
         GamificationEngine engine = new GamificationEngine();
 
-        fileAccess.updateUserScore(name, totalScore);
+        fileAccess.updateUserScore(userName, totalScore);
 
         String result =
                 "Quiz Completed!\n\n" +
-                "Name: " + name + "\n" +
+                "Name: " + userName + "\n" +
                 "Correct Answers: " + correctCount + "/" + questions.size() + "\n" +
                 "Percentage: " + String.format("%.2f", percentage) + "%\n" +
                 "Final Score: " + totalScore + "/100\n\n" +
@@ -164,7 +172,7 @@ public class Quiz extends ModuleBase {
         JOptionPane.showMessageDialog(this, result, "Quiz Result", JOptionPane.INFORMATION_MESSAGE);
 
         dispose();
-        new UserOptions(name, totalScore);
+        new UserOptions(userName, totalScore);
     }
 
     private void cancelQuiz() {
@@ -174,7 +182,7 @@ public class Quiz extends ModuleBase {
                 JOptionPane.INFORMATION_MESSAGE);
 
         dispose();
-        new UserOptions(name, oldScore);
+        new UserOptions(userName, oldScore);
     }
 
     private void loadQuestions() {
