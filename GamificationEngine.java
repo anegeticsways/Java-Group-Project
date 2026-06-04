@@ -6,8 +6,6 @@ Description:
 Manages logic for badges, points, and motivational elements.
 */
 
-import javax.swing.JOptionPane;
-
 public class GamificationEngine implements RewardSystem {
 
     @Override
@@ -26,13 +24,27 @@ public class GamificationEngine implements RewardSystem {
     @Override
     public String getMotivationalMessage(int score) {
         if (score >= GOLD_THRESHOLD) {
-            return "Outstanding! You are a true champion for the environment!";
+            return "Excellent work! You understand e-waste very well.";
         } else if (score >= SILVER_THRESHOLD) {
-            return "Great job! Keep learning to become a top Eco-Warrior!";
+            return "Good progress! Keep learning and improving.";
         } else if (score >= BRONZE_THRESHOLD) {
-            return "Good start! There is still more to learn about saving our planet.";
+            return "Nice effort! Review the learning content and try again.";
         } else {
-            return "Every journey begins with a single step. Keep going!";
+            return "Do not worry. Keep learning and you can improve your score.";
+        }
+    }
+
+    public String getRubricMessage(int score) {
+        if (score >= 80) {
+            return "Outstanding!";
+        } else if (score >= 60) {
+            return "That's good!";
+        } else if (score >= 40) {
+            return "Good try!";
+        } else if (score >= 20) {
+            return "You can do better!";
+        } else {
+            return "Don't give up!";
         }
     }
 
@@ -45,27 +57,11 @@ public class GamificationEngine implements RewardSystem {
         } else if (score < GOLD_THRESHOLD) {
             return GOLD_THRESHOLD - score;
         } else {
-            return 0; // Max badge achieved
+            return 0;
         }
     }
 
-    // Method to display a single user's gamified stats in a pop-up
-    public void displayPlayerStats(String name, int score) {
-        String badge = determineBadge(score);
-        String message = getMotivationalMessage(score);
-        int nextBadgePoints = calculatePointsToNextBadge(score);
-
-        String statsMessage = "User: " + name + "\n"
-                            + "Total Score: " + score + "\n"
-                            + "Current Badge: " + badge + "\n\n"
-                            + message + "\n";
-
-        if (nextBadgePoints > 0) {
-            statsMessage += "(Need " + nextBadgePoints + " more points for the next badge!)";
-        } else {
-            statsMessage += "(You have reached the highest rank!)";
-        }
-
-        JOptionPane.showMessageDialog(null, statsMessage, "Your Achievements", JOptionPane.INFORMATION_MESSAGE);
+    public String getMotivationalMessage(int score, String name) {
+        return name + ", " + getMotivationalMessage(score);
     }
 }
