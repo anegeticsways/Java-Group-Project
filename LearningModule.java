@@ -22,7 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
-public class LearningModule implements Displayable {
+public class LearningModule implements Displayable, ModuleAction {
 
     private String[] pageTitles;
     private String[] pageTexts;
@@ -88,7 +88,6 @@ imagePaths = new String[] {
     "recycle.jpg"
 };
 
-openModule();
     }
 
  @Override
