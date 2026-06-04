@@ -1,5 +1,7 @@
 /*
 Created by: Andrean (103325)
+Role: Member 1 - Data and Storage Lead
+
 Tested by: Ainin (102810)
 
 Description:
@@ -14,7 +16,8 @@ import javax.swing.JOptionPane;
 public class Achievement {
 
     public void displayAchievements() {
-        ArrayList<User> users = User.loadUsers();
+        UserAccess userAccess = new UserFileAccess(); // Instance of UserFileAccess to access user data
+        ArrayList<User> users = userAccess.getAllUsers();
         GamificationEngine engine = new GamificationEngine();
 
         users.sort((u1, u2) -> u2.getScore() - u1.getScore());
