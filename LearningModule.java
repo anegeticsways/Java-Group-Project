@@ -98,17 +98,17 @@ public void displayPage() {
         return;
     }
 
-    Image scaledImage = originalIcon.getImage().getScaledInstance(220, 130, Image.SCALE_SMOOTH);
+    Image scaledImage = originalIcon.getImage().getScaledInstance(AppConfig.PHONE_WIDTH - 170, 130, Image.SCALE_SMOOTH);
     ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
     JLabel logoLabel = new JLabel("EcoLearn");
-    logoLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-    logoLabel.setForeground(new Color(34, 139, 94));
+    logoLabel.setFont(AppConfig.TITLE_FONT);
+    logoLabel.setForeground(AppConfig.PRIMARY);
     logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     JLabel titleLabel = new JLabel(pageTitles[currentPage]);
-    titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-    titleLabel.setForeground(new Color(40, 40, 40));
+    titleLabel.setFont(AppConfig.TITLE_FONT);
+    titleLabel.setForeground(AppConfig.TEXT);
     titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     JLabel imageLabel = new JLabel(resizedIcon);
@@ -119,23 +119,23 @@ public void displayPage() {
         + pageTexts[currentPage]
         + "</div></html>"
     );
-    textLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-    textLabel.setForeground(new Color(60, 60, 60));
+    textLabel.setFont(AppConfig.NORMAL_FONT);
+    textLabel.setForeground(AppConfig.TEXT);
     textLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     JLabel pageLabel = new JLabel("Page " + (currentPage + 1) + " of " + pageTexts.length);
-    pageLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
-    pageLabel.setForeground(new Color(100, 100, 100));
+    pageLabel.setFont(AppConfig.NORMAL_FONT.deriveFont(Font.ITALIC, 11f));
+    pageLabel.setForeground(AppConfig.TEXT);
     pageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-    panel.setBackground(new Color(245, 252, 247));
+    panel.setBackground(AppConfig.BG);
     panel.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createLineBorder(new Color(180, 220, 190), 2, true),
-        BorderFactory.createEmptyBorder(15, 20, 15, 20)
+    BorderFactory.createLineBorder(new Color(180, 220, 190), 2, true),
+    BorderFactory.createEmptyBorder(15, 20, 15, 20)
     ));
-    panel.setPreferredSize(new java.awt.Dimension(320, 450));
+    panel.setPreferredSize(new java.awt.Dimension(AppConfig.PHONE_WIDTH - 70, AppConfig.PHONE_HEIGHT - 250));
 
     logoLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
     titleLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
