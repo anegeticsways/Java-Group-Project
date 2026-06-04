@@ -9,51 +9,97 @@ Description:
 
 // import java.util.Scanner;
 // import java.util.logging.FileHandler;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main extends JFrame {
 
-        //Variables to store user data
-        String name;
-        int score = 0; //Default score for new users
+    private JTextField nameField;
+    private UserFileAccess fileAccess = new UserFileAccess();
 
-        // Display welcome message for users
-        JOptionPane.showMessageDialog(null, "Welcome to eWaste Education and Awareness Site!");
+    public Main() {
+        setTitle("EcoLearn");
+        setSize(AppConfig.PHONE_WIDTH, AppConfig.PHONE_HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
 
-        //User input name to begin the program
-        name = JOptionPane.showInputDialog("Please enter your username to begin the program:");
+        JPanel panel = new JPanel();
+        panel.setBackground(AppConfig.BG);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(80, 25, 25, 25));
 
-       //Call all users method to load user data
-        UserAccess userAccess = new UserFileAccess(); // Instance of UserFileAccess to access user data
-        ArrayList<User> users = userAccess.getAllUsers(); // Load all users from file
+        JLabel title = new JLabel("♻ EcoLearn");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        title.setForeground(AppConfig.PRIMARY);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Trackers to see if user exists or not
-            boolean userExists = false; 
-            User existingUser = null; 
+        JLabel subtitle = new JLabel("<html><center>E-Waste Education<br>and Awareness App</center></html>");
+        subtitle.setFont(AppConfig.NORMAL_FONT);
+        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        //To check if user exists
+        nameField = new JTextField();
+        nameField.setMaximumSize(new Dimension(300, 40));
+        nameField.setFont(AppConfig.NORMAL_FONT);
+        nameField.setBorder(BorderFactory.createTitledBorder("Enter username"));
+
+        JButton startBtn = new JButton("Start");
+        startBtn.setFont(AppConfig.BUTTON_FONT);
+        startBtn.setMaximumSize(new Dimension(300, 45));
+        startBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startBtn.addActionListener(e -> login());
+
+        panel.add(title);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(subtitle);
+        panel.add(Box.createVerticalStrut(50));
+        panel.add(nameField);
+        panel.add(Box.createVerticalStrut(25));
+        panel.add(startBtn);
+
+        add(panel);
+        setVisible(true);
+    }
+
+    private void login() {
+        String name = nameField.getText().trim();
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your username.");
+            return;
+        }
+
+        ArrayList<User> users = fileAccess.loadUsers();
+        User existingUser = null;
+
         for (User u : users) {
-            if (u.getName().equalsIgnoreCase(name) == true) { // If user exists, welcome back and show current score
-                userExists = true;
+            if (u.getName().equalsIgnoreCase(name)) {
                 existingUser = u;
-                break; // Exit the loop if user is found
+                break;
             }
         }
 
-        if (userExists) { //If user exists
-            JOptionPane.showMessageDialog(null, "Welcome back, " + name + "! Your current score is: " + existingUser.getScore());
-            UserOptions userOptions = new UserOptions();
-            userOptions.choice(name, existingUser.getScore()); // Call user options menu
-        } 
-        else { //If user does not exist, create new user
-            JOptionPane.showMessageDialog(null, "Welcome, " + name + "! Let's begin your eWaste education journey!");
-            User newUser = new User(name, score);
-            users.add(newUser); // Add new user to the 'users' list
-            userAccess.saveAllUsers(users);
-            UserOptions userOptions = new UserOptions();
-            userOptions.choice(name, score); // Call user options menu
+        int score;
+
+        if (existingUser != null) {
+            score = existingUser.getScore();
+            JOptionPane.showMessageDialog(this,
+                    "Welcome back, " + name + "!\nCurrent score: " + score);
+        } else {
+            score = 0;
+            users.add(new User(name, score));
+            fileAccess.saveAllUsers(users);
+            JOptionPane.showMessageDialog(this,
+                    "Welcome, " + name + "!\nLet's begin your e-waste journey.");
         }
+
+        dispose();
+        new UserOptions(name, score);
+    }
+
+    public static void main(String[] args) {
+        new Main();
     }
 }
