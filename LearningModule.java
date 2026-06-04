@@ -1,9 +1,12 @@
-// Contributed by (Ailin Najwa)(102390)
-// Role: Member 2 - Content Specialist
-// Description:
-// 1. Manages 10+ pages of SDG/e-waste educational content.
-// 2. Displays both text and images.
-// 3. Implements Displayable interface for page rendering and navigation.
+/*
+Contributed by Ailin Najwa (102390)
+Role: Member 2 - Content Specialist
+
+Description:
+1. Manages 10+ pages of SDG/e-waste educational content.
+2. Displays both text and images.
+3. Implements Displayable interface for page rendering and navigation.
+*/
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
