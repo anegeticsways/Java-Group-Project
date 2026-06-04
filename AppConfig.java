@@ -1,5 +1,5 @@
 //Contributed by Ainin(102810)
-//Acts as central settings file
+//Acts central settings file
 
 import java.awt.*;
 
