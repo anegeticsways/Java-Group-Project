@@ -22,7 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
-public class LearningModule extends ModuleBase implements Displayable {
+public class LearningModule implements Displayable {
 
     private String[] pageTitles;
     private String[] pageTexts;
@@ -87,6 +87,8 @@ imagePaths = new String[] {
     "sdg12.jpg",
     "recycle.jpg"
 };
+
+openModule();
     }
 
  @Override
@@ -202,6 +204,8 @@ public void displayPage() {
                 previousPage();
             } else if (choice == 1) {
                 nextPage();
+            } else {
+                choice = 2;
             }
 
         } while (choice != 2);
@@ -212,4 +216,3 @@ public void displayPage() {
         startLearning();
     }
 }
-
