@@ -31,7 +31,7 @@ public class Main extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(80, 25, 25, 25));
 
-        JLabel title = new JLabel("♻ EcoLearn");
+        JLabel title = new JLabel("EcoLearn");
         title.setFont(new Font("Segoe UI", Font.BOLD, 30));
         title.setForeground(AppConfig.PRIMARY);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
