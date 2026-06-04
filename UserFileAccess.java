@@ -8,56 +8,79 @@ Description:
 3. Ensures that user data is persistent across sessions by storing it in a text file.
 */
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class UserFileAccess implements UserAccess {
+
     private static final String FILE_PATH = "userdata.txt";
 
-    @Override // Method to retrieve all users from userdata.txt
-    public ArrayList<User> getAllUsers() {
+    @Override
+    public ArrayList<User> loadUsers() {
         ArrayList<User> users = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+
+        try {
+            File file = new File(FILE_PATH);
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
+
             while ((line = br.readLine()) != null) {
                 line = line.trim();
-                if (line.isEmpty()) continue; // Skip empty lines
-                
+
+                if (line.isEmpty()) {
+                    continue;
+                }
+
                 String[] data = line.split(",");
+
                 if (data.length == 2) {
-                    users.add(new User(data[0], Integer.parseInt(data[1])));
+                    String name = data[0];
+                    int score = Integer.parseInt(data[1]);
+                    users.add(new User(name, score));
                 }
             }
-        } catch (IOException e) {
-            System.err.println("Error loading users: " + e.getMessage());
+
+            br.close();
+
+        } catch (IOException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error loading user data.");
         }
+
         return users;
     }
 
-    @Override // Method to save all users to userdata.txt
+    @Override
     public void saveAllUsers(ArrayList<User> users) {
-        try (FileWriter fw = new FileWriter(FILE_PATH)) {
+        try {
+            FileWriter fw = new FileWriter(FILE_PATH);
+
             for (User u : users) {
                 fw.write(u.getName() + "," + u.getScore() + "\n");
             }
+
+            fw.close();
+
         } catch (IOException e) {
-            System.err.println("Error saving users: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error saving user data.");
         }
     }
 
-    @Override // Method to update a specific user's score in userdata.txt
-    public void updateUserScore(String name, int newScore) {
-        // Automatically reads, updates the correct user, and saves!
-        ArrayList<User> users = getAllUsers();
+    @Override
+    public void updateUserScore(String name, int score) {
+        ArrayList<User> users = loadUsers();
+
         for (User u : users) {
             if (u.getName().equalsIgnoreCase(name)) {
-                u.setScore(newScore);
+                u.setScore(score);
                 break;
             }
         }
-        saveAllUsers(users); // Save the updated user data to file
+
+        saveAllUsers(users);
     }
 }
