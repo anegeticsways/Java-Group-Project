@@ -42,8 +42,10 @@ public class UserOptions extends ModuleBase {
         JButton exitBtn = createButton("Exit");
 
         learningBtn.addActionListener(e -> {
-            dispose();
-            new LearningModule(name, score);
+        dispose();
+        LearningModule learningModule = new LearningModule();
+        learningModule.startLearning();
+        new UserOptions(name, score);
         });
 
         quizBtn.addActionListener(e -> {
