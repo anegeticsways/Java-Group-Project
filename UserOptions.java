@@ -16,7 +16,7 @@ import java.awt.*;
 public class UserOptions extends ModuleBase {
 
     public UserOptions(String name, int score) {
-        super("EcoLearn Menu", name, score);
+        super(name, score);
         openModule();
     }
 
@@ -25,14 +25,15 @@ public class UserOptions extends ModuleBase {
         JPanel panel = new JPanel();
         panel.setBackground(AppConfig.BG);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(50, 25, 25, 25));
+        panel.setPreferredSize(new Dimension(320, 450));
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 25, 30, 25));
 
         JLabel title = new JLabel("Main Menu");
         title.setFont(AppConfig.TITLE_FONT);
         title.setForeground(AppConfig.PRIMARY);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel userInfo = new JLabel("<html><center>User: " + name + "<br>Score: " + score + "</center></html>");
+        JLabel userInfo = new JLabel("<html><center>User: " + name + "<br>Score: " + score + "/100</center></html>");
         userInfo.setFont(AppConfig.NORMAL_FONT);
         userInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -42,20 +43,30 @@ public class UserOptions extends ModuleBase {
         JButton exitBtn = createButton("Exit");
 
         learningBtn.addActionListener(e -> {
-        dispose();
-        LearningModule learningModule = new LearningModule();
-        learningModule.startLearning();
-        new UserOptions(name, score);
+            Window w = SwingUtilities.getWindowAncestor(panel);
+            if (w != null) w.dispose();
+
+            LearningModule learningModule = new LearningModule();
+            learningModule.startLearning();
+
+            new UserOptions(name, score);
         });
 
         quizBtn.addActionListener(e -> {
-            dispose();
+            Window w = SwingUtilities.getWindowAncestor(panel);
+            if (w != null) w.dispose();
+
             new Quiz(name, score);
         });
 
         achievementBtn.addActionListener(e -> {
-            dispose();
-            new Achievement(name, score);
+            Window w = SwingUtilities.getWindowAncestor(panel);
+            if (w != null) w.dispose();
+
+            Achievement achievement = new Achievement();
+            achievement.displayAchievements();
+
+            new UserOptions(name, score);
         });
 
         exitBtn.addActionListener(e -> System.exit(0));
@@ -63,24 +74,24 @@ public class UserOptions extends ModuleBase {
         panel.add(title);
         panel.add(Box.createVerticalStrut(20));
         panel.add(userInfo);
-        panel.add(Box.createVerticalStrut(50));
+        panel.add(Box.createVerticalStrut(35));
         panel.add(learningBtn);
-        panel.add(Box.createVerticalStrut(15));
+        panel.add(Box.createVerticalStrut(12));
         panel.add(quizBtn);
-        panel.add(Box.createVerticalStrut(15));
+        panel.add(Box.createVerticalStrut(12));
         panel.add(achievementBtn);
-        panel.add(Box.createVerticalStrut(15));
+        panel.add(Box.createVerticalStrut(12));
         panel.add(exitBtn);
 
-        add(panel);
-        setVisible(true);
+        JOptionPane.showMessageDialog(null, panel, "EcoLearn Menu", JOptionPane.PLAIN_MESSAGE);
     }
 
     private JButton createButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(AppConfig.BUTTON_FONT);
-        btn.setMaximumSize(new Dimension(300, 45));
+        btn.setMaximumSize(new Dimension(260, 40));
         btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn.setFocusPainted(false);
         return btn;
     }
 }
