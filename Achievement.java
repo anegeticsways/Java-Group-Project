@@ -10,35 +10,84 @@ Description:
 3. Shows badge/title earned using GamificationEngine.
 */
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
-public class Achievement {
+public class Achievement extends ModuleBase {
 
-    public void displayAchievements() {
-        UserAccess userAccess = new UserFileAccess(); // Instance of UserFileAccess to access user data
-        ArrayList<User> users = userAccess.getAllUsers();
+    private UserFileAccess fileAccess = new UserFileAccess();
+
+    public Achievement(String name, int score) {
+        super("Achievements", name, score);
+        openModule();
+    }
+
+    @Override
+    public void openModule() {
+        JPanel panel = new JPanel();
+        panel.setBackground(AppConfig.BG);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 20, 20, 20));
+
+        JLabel title = new JLabel("Achievements");
+        title.setFont(AppConfig.TITLE_FONT);
+        title.setForeground(AppConfig.PRIMARY);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JTextArea achievementArea = new JTextArea();
+        achievementArea.setFont(AppConfig.NORMAL_FONT);
+        achievementArea.setEditable(false);
+        achievementArea.setLineWrap(true);
+        achievementArea.setWrapStyleWord(true);
+        achievementArea.setText(getAchievementText());
+
+        JScrollPane scrollPane = new JScrollPane(achievementArea);
+        scrollPane.setPreferredSize(new Dimension(320, 450));
+
+        JButton backBtn = new JButton("Back");
+        backBtn.setFont(AppConfig.BUTTON_FONT);
+        backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        backBtn.addActionListener(e -> {
+            dispose();
+            new UserOptions(name, score);
+        });
+
+        panel.add(title);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(scrollPane);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(backBtn);
+
+        add(panel);
+        setVisible(true);
+    }
+
+    private String getAchievementText() {
+        ArrayList<User> users = fileAccess.loadUsers();
         GamificationEngine engine = new GamificationEngine();
 
-        users.sort((u1, u2) -> u2.getScore() - u1.getScore());
+        StringBuilder sb = new StringBuilder();
 
-        String scoreboard = "Score Board\n\n";
+        for (User u : users) {
+            sb.append("User: ").append(u.getName()).append("\n");
+            sb.append("Total Score: ").append(u.getScore()).append("/100\n");
+            sb.append("Performance: ").append(engine.getRubricMessage(u.getScore())).append("\n");
+            sb.append("Badge: ").append(engine.determineBadge(u.getScore())).append("\n");
+            sb.append(engine.getMotivationalMessage(u.getScore())).append("\n");
 
-        for (int i = 0; i < users.size(); i++) {
-            User u = users.get(i);
-            String badge = engine.determineBadge(u.getScore());
+            int next = engine.calculatePointsToNextBadge(u.getScore());
 
-            scoreboard += (i + 1) + ". " +
-                          u.getName() + " - " +
-                          u.getScore() + " Points | " +
-                          badge + "\n";
+            if (next > 0) {
+                sb.append("Need ").append(next).append(" more points for next badge.\n");
+            } else {
+                sb.append("Highest badge achieved!\n");
+            }
+
+            sb.append("\n-------------------------\n\n");
         }
 
-        JOptionPane.showMessageDialog(
-            null,
-            scoreboard,
-            "Score Board",
-            JOptionPane.INFORMATION_MESSAGE
-        );
+        return sb.toString();
     }
 }
