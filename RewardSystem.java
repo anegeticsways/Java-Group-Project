@@ -4,6 +4,8 @@ Role: Member 3 - Engagement Engineer
 
 Description: 
 Defines the criteria and thresholds for earning different rewards.
+
+Tested by: Ainin (102810)
 */
 
 public interface RewardSystem {
