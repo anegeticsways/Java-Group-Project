@@ -22,7 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
-public class LearningModule implements Displayable {
+public class LearningModule extends ModuleBase implements Displayable {
 
     private String[] pageTitles;
     private String[] pageTexts;
@@ -205,6 +205,11 @@ public void displayPage() {
             }
 
         } while (choice != 2);
+    }
+
+    @Override
+        public void openModule() {
+        startLearning();
     }
 }
 
