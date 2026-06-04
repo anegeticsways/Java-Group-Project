@@ -97,7 +97,7 @@ public void displayPage() {
     Image scaledImage = originalIcon.getImage().getScaledInstance(420, 250, Image.SCALE_SMOOTH);
     ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
-    JLabel logoLabel = new JLabel("♻ EcoLearn");
+    JLabel logoLabel = new JLabel("EcoLearn");
     logoLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
     logoLabel.setForeground(new Color(34, 139, 94));
     logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
