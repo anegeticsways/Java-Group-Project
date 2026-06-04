@@ -14,11 +14,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Achievement {
+public class Achievement extends JFrame implements ModuleAction {
+
     private UserFileAccess fileAccess = new UserFileAccess();
+    private String userName;
+    private int userScore;
 
     public Achievement(String name, int score) {
-        super("Achievements", name, score);
+        super("Achievements");
+        this.userName = name;
+        this.userScore = score;
+
+        setSize(AppConfig.PHONE_WIDTH, AppConfig.PHONE_HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
         openModule();
     }
 
@@ -51,7 +62,7 @@ public class Achievement {
 
         backBtn.addActionListener(e -> {
             dispose();
-            new UserOptions(name, score);
+            new UserOptions(userName, userScore);
         });
 
         panel.add(title);
@@ -75,7 +86,6 @@ public class Achievement {
 
         for (User u : users) {
             sb.append("<div style='padding:10px; margin-bottom:10px; border:1px solid #b4dcc0;'>");
-
             sb.append("<b>User:</b> ").append(u.getName()).append("<br>");
             sb.append("<b>Total Score:</b> ").append(u.getScore()).append("/100<br>");
             sb.append("<b>Performance:</b> ").append(engine.getRubricMessage(u.getScore())).append("<br>");
