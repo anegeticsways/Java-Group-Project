@@ -93,22 +93,27 @@ public class Quiz extends ModuleBase {
 
         Assessment q = questions.get(currentQuestion);
 
-        questionLabel.setText("<html><div style='width:310px; text-align:center;'>"
+        questionLabel.setText(
+                "<html><div style='width:300px; text-align:center;'>"
                 + "Question " + (currentQuestion + 1) + " of " + questions.size()
                 + "<br><br>[" + q.getQuestionType() + "]<br>"
                 + q.getQuestion()
-                + "</div></html>");
+                + "</div></html>"
+        );
 
         String[] options = q.getOptions();
 
         for (int i = 0; i < options.length; i++) {
-            JButton optionBtn = new JButton(options[i]);
-            optionBtn.setFont(AppConfig.BUTTON_FONT);
+                JButton optionBtn = new JButton("<html><center>" + options[i] + "</center></html>");
+                optionBtn.setFont(AppConfig.BUTTON_FONT);
+                optionBtn.setFocusPainted(false);
+                optionBtn.setHorizontalAlignment(SwingConstants.CENTER);
+                optionBtn.setVerticalAlignment(SwingConstants.CENTER);
 
-            int selectedAnswer = i;
-            optionBtn.addActionListener(e -> checkAnswer(selectedAnswer));
+                int selectedAnswer = i;
+                optionBtn.addActionListener(e -> checkAnswer(selectedAnswer));
 
-            optionsPanel.add(optionBtn);
+                optionsPanel.add(optionBtn);
         }
 
         optionsPanel.revalidate();
