@@ -47,7 +47,7 @@ public class UserOptions extends ModuleBase {
             if (w != null) w.dispose();
 
             LearningModule learningModule = new LearningModule();
-            learningModule.startLearning();
+            learningModule.openModule();
 
             new UserOptions(name, score);
         });
@@ -63,10 +63,7 @@ public class UserOptions extends ModuleBase {
             Window w = SwingUtilities.getWindowAncestor(panel);
             if (w != null) w.dispose();
 
-            Achievement achievement = new Achievement();
-            achievement.displayAchievements();
-
-            new UserOptions(name, score);
+            new Achievement(name, score);
         });
 
         exitBtn.addActionListener(e -> System.exit(0));
