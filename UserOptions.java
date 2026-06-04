@@ -1,5 +1,7 @@
 /*
 Contributed by Andrean (103325)
+Role: Member 1 - Data and Storage Lead
+
 Description:
 1. UserOptions.java manages the user options menu after enter to system
 2. It handles user interactions for viewing learning content, taking quizzes, viewing score board, and exiting the program.
@@ -13,11 +15,13 @@ import javax.swing.JOptionPane;
 
 public class UserOptions {
 
-    private ArrayList<User> users; // List to hold user data for updating scores
+    private UserAccess userAccess; // Interface for user data access
+
+   // private ArrayList<User> users; // List to hold user data for updating scores
 
     public UserOptions() {
-        this.users = User.loadUsers(); // Load users to access and update user data in this class
-    }
+        this.userAccess = new UserFileAccess(); // Use file-based access for user data
+    }    
 
     public void choice(String name, int score) {
         //User Options [PARTIALLY COMPLETED - NEED TO LINK TO OTHER CLASSES]
@@ -35,14 +39,7 @@ public class UserOptions {
             Quiz quiz = new Quiz();
             quiz.displayQuiz(name, score); //Display quiz questions
             int latestScore = quiz.calculateScore(); // Calculate score from quiz
-            // Assuming 'users' is accessible in this scope
-            for (User u : users) {
-                if (u.getName().equalsIgnoreCase(name)) {
-                    u.setScore(latestScore); // update score
-                    User.saveAllUsers(users); // save the updated user data to file
-                    break;
-                }
-            }
+            userAccess.updateUserScore(name, latestScore); // Update user score in file
 
             // Return to options menu after answering quiz
             this.choice(name, latestScore);
