@@ -6,6 +6,8 @@ Description:
 1. Manages user data by reading from and writing to a file (userdata.txt).
 2. Implements the UserAccess interface to provide methods for retrieving all users, saving users, and updating user scores.
 3. Ensures that user data is persistent across sessions by storing it in a text file.
+
+Tested by: Ainin (102810)
 */
 
 import java.io.*;
