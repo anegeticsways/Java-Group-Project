@@ -4,6 +4,8 @@ Role: Member 3 - Engagement Engineer
 
 Description: 
 Manages logic for badges, points, and motivational elements.
+
+Tested by: Ainin (102810)
 */
 
 public class GamificationEngine implements RewardSystem {
