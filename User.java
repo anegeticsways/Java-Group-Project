@@ -1,5 +1,6 @@
 /*
 Contributed by Andrean (103325)
+Role: Member 1 - Data and Storage Lead
 
 Description: 
 1. Represents a user in the eWaste education application
