@@ -10,65 +10,75 @@ Description:
 5. If user still wanted to stay logged in the system, they can return to options menu after each activity instead of exiting the program
 */
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
 
-public class UserOptions {
-
-    private UserAccess userAccess;
-
-    public UserOptions() {
-        this.userAccess = new UserFileAccess();
-    }
+public class UserOptions extends ModuleBase {
 
     public UserOptions(String name, int score) {
-        this.userAccess = new UserFileAccess();
-        choice(name, score);
+        super("EcoLearn Menu", name, score);
+        openModule();
     }
 
-    public void choice(String name, int score) {
+    @Override
+    public void openModule() {
+        JPanel panel = new JPanel();
+        panel.setBackground(AppConfig.BG);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(50, 25, 25, 25));
 
-        String optionInput = JOptionPane.showInputDialog(
-                "Please select an option:\n"
-                + "1. View Learning Content\n"
-                + "2. Take Quiz\n"
-                + "3. View Score Board\n"
-                + "4. Exit");
+        JLabel title = new JLabel("Main Menu");
+        title.setFont(AppConfig.TITLE_FONT);
+        title.setForeground(AppConfig.PRIMARY);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        int option = Integer.parseInt(optionInput);
+        JLabel userInfo = new JLabel("<html><center>User: " + name + "<br>Score: " + score + "</center></html>");
+        userInfo.setFont(AppConfig.NORMAL_FONT);
+        userInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        if (option == 1) {
+        JButton learningBtn = createButton("View Learning Content");
+        JButton quizBtn = createButton("Take Quiz");
+        JButton achievementBtn = createButton("View Achievements");
+        JButton exitBtn = createButton("Exit");
 
-            LearningModule learningModule = new LearningModule();
-            learningModule.startLearning();
+        learningBtn.addActionListener(e -> {
+            dispose();
+            new LearningModule(name, score);
+        });
 
-            this.choice(name, score);
-
-        } else if (option == 2) {
-
+        quizBtn.addActionListener(e -> {
+            dispose();
             new Quiz(name, score);
+        });
 
-        } else if (option == 3) {
+        achievementBtn.addActionListener(e -> {
+            dispose();
+            new Achievement(name, score);
+        });
 
-            Achievement achievement = new Achievement();
-            achievement.displayAchievements();
+        exitBtn.addActionListener(e -> System.exit(0));
 
-            this.choice(name, score);
+        panel.add(title);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(userInfo);
+        panel.add(Box.createVerticalStrut(50));
+        panel.add(learningBtn);
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(quizBtn);
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(achievementBtn);
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(exitBtn);
 
-        } else if (option == 4) {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Thank you for using the eWaste Education and Awareness Site! Goodbye!");
-
-            System.exit(0);
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Invalid option. Please try again.");
-
-            this.choice(name, score);
-        }
+        add(panel);
+        setVisible(true);
     }
-}  
+
+    private JButton createButton(String text) {
+        JButton btn = new JButton(text);
+        btn.setFont(AppConfig.BUTTON_FONT);
+        btn.setMaximumSize(new Dimension(300, 45));
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return btn;
+    }
+}
