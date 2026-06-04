@@ -1,6 +1,7 @@
 /*
 Contributed by Ailin Najwa (102390)
 Role: Member 2 - Content Specialist
+Tester: Ailin Najwa (102390)
 
 Description:
 1. Manages 10+ pages of SDG/e-waste educational content.
@@ -97,16 +98,16 @@ public void displayPage() {
         return;
     }
 
-    Image scaledImage = originalIcon.getImage().getScaledInstance(420, 250, Image.SCALE_SMOOTH);
+    Image scaledImage = originalIcon.getImage().getScaledInstance(220, 130, Image.SCALE_SMOOTH);
     ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
     JLabel logoLabel = new JLabel("EcoLearn");
-    logoLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+    logoLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
     logoLabel.setForeground(new Color(34, 139, 94));
     logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     JLabel titleLabel = new JLabel(pageTitles[currentPage]);
-    titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+    titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
     titleLabel.setForeground(new Color(40, 40, 40));
     titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -114,11 +115,11 @@ public void displayPage() {
     imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     JLabel textLabel = new JLabel(
-        "<html><div style='width:420px; text-align:center; padding:8px;'>"
+        "<html><div style='width:220px; text-align:center; padding:5px;'>"
         + pageTexts[currentPage]
         + "</div></html>"
     );
-    textLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+    textLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
     textLabel.setForeground(new Color(60, 60, 60));
     textLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -134,6 +135,7 @@ public void displayPage() {
         BorderFactory.createLineBorder(new Color(180, 220, 190), 2, true),
         BorderFactory.createEmptyBorder(15, 20, 15, 20)
     ));
+    panel.setPreferredSize(new java.awt.Dimension(320, 450));
 
     logoLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
     titleLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
@@ -141,15 +143,17 @@ public void displayPage() {
     textLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
     pageLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
 
+    panel.add(Box.createVerticalGlue());
     panel.add(logoLabel);
     panel.add(Box.createVerticalStrut(8));
     panel.add(titleLabel);
-    panel.add(Box.createVerticalStrut(12));
+    panel.add(Box.createVerticalStrut(6));
     panel.add(imageLabel);
-    panel.add(Box.createVerticalStrut(12));
+    panel.add(Box.createVerticalStrut(6));
     panel.add(textLabel);
     panel.add(Box.createVerticalStrut(8));
     panel.add(pageLabel);
+    panel.add(Box.createVerticalGlue());
 
     JOptionPane.showMessageDialog(
         null,
@@ -203,3 +207,4 @@ public void displayPage() {
         } while (choice != 2);
     }
 }
+
