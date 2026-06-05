@@ -24,6 +24,7 @@ import javax.swing.BoxLayout;
 
 public class LearningModule implements Displayable, ModuleAction {
 
+    // Content arrays for titles, texts and images
     private String[] pageTitles;
     private String[] pageTexts;
     private String[] imagePaths;
@@ -32,6 +33,7 @@ public class LearningModule implements Displayable, ModuleAction {
     public LearningModule() {
         currentPage = 0;
 
+        // Initialize content for each page
         pageTitles = new String[] {
             "What is E-Waste?",
             "Causes of E-Waste",
@@ -47,6 +49,7 @@ public class LearningModule implements Displayable, ModuleAction {
             "What You Can Do"
         };
 
+        // Each page's text content
         pageTexts = new String[] {
             "E-waste means discarded electronic devices such as phones, laptops, computers, televisions and chargers.",
 
@@ -73,48 +76,55 @@ public class LearningModule implements Displayable, ModuleAction {
             "You can help by buying only what you need, taking care of your devices and recycling electronics properly."
         };
 
-imagePaths = new String[] {
-    "ewaste1.jpg",
-    "ewaste2.jpg",
-    "ewaste3.jpg",
-    "ewaste4.jpg",
-    "ewaste5.jpg",
-    "ewaste6.jpg",
-    "ewaste7.jpg",
-    "ewaste8.jpg",
-    "ewaste9.jpg",
-    "ewaste10.jpg",
-    "sdg12.jpg",
-    "recycle.jpg"
-};
+        // Each page's image file path
+        imagePaths = new String[] {
+            "ewaste1.jpg",
+            "ewaste2.jpg",
+            "ewaste3.jpg",
+            "ewaste4.jpg",
+            "ewaste5.jpg",
+            "ewaste6.jpg",
+            "ewaste7.jpg",
+            "ewaste8.jpg",
+            "ewaste9.jpg",
+            "ewaste10.jpg",
+            "sdg12.jpg",
+            "recycle.jpg"
+        };
 
     }
 
+// Display the current page with title, image and text
  @Override
 public void displayPage() {
-    ImageIcon originalIcon = new ImageIcon(imagePaths[currentPage]);
+    ImageIcon originalIcon = new ImageIcon(imagePaths[currentPage]); // Load the original image
 
     if (originalIcon.getIconWidth() == -1) {
-        JOptionPane.showMessageDialog(null, "Cannot load image: " + imagePaths[currentPage]);
+        JOptionPane.showMessageDialog(null, "Cannot load image: " + imagePaths[currentPage]); // Show error if image cannot be loaded
         return;
     }
 
+    // Scale the image to fit within the designated area while maintaining aspect ratio
     Image scaledImage = originalIcon.getImage().getScaledInstance(AppConfig.PHONE_WIDTH - 170, 130, Image.SCALE_SMOOTH);
     ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
+    // Labels for logo, title, image, text and page number
     JLabel logoLabel = new JLabel("EcoLearn");
     logoLabel.setFont(AppConfig.TITLE_FONT);
     logoLabel.setForeground(AppConfig.PRIMARY);
     logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+    // Title label for the current page
     JLabel titleLabel = new JLabel(pageTitles[currentPage]);
     titleLabel.setFont(AppConfig.TITLE_FONT);
     titleLabel.setForeground(AppConfig.TEXT);
     titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+    // Image label for the current page's image
     JLabel imageLabel = new JLabel(resizedIcon);
     imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+    // Text label for the current page's content
     JLabel textLabel = new JLabel(
         "<html><div style='width:220px; text-align:center; padding:5px;'>"
         + pageTexts[currentPage]
@@ -124,11 +134,13 @@ public void displayPage() {
     textLabel.setForeground(AppConfig.TEXT);
     textLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+    // Page number label
     JLabel pageLabel = new JLabel("Page " + (currentPage + 1) + " of " + pageTexts.length);
     pageLabel.setFont(AppConfig.NORMAL_FONT.deriveFont(Font.ITALIC, 11f));
     pageLabel.setForeground(AppConfig.TEXT);
     pageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+    // Panel to hold all components with styling
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setBackground(AppConfig.BG);
@@ -138,12 +150,14 @@ public void displayPage() {
     ));
     panel.setPreferredSize(new java.awt.Dimension(AppConfig.PHONE_WIDTH - 70, AppConfig.PHONE_HEIGHT - 250));
 
+    // Center align all components in the panel
     logoLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
     titleLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
     imageLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
     textLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
     pageLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
 
+    // Add components to the panel with spacing
     panel.add(Box.createVerticalGlue());
     panel.add(logoLabel);
     panel.add(Box.createVerticalStrut(8));
@@ -156,6 +170,7 @@ public void displayPage() {
     panel.add(pageLabel);
     panel.add(Box.createVerticalGlue());
 
+    // Show the panel in a dialog
     JOptionPane.showMessageDialog(
         null,
         panel,
@@ -163,6 +178,8 @@ public void displayPage() {
         JOptionPane.PLAIN_MESSAGE
     );
 }
+
+    // Navigate to the next page
     @Override
     public void nextPage() {
         if (currentPage < pageTexts.length - 1) {
@@ -172,6 +189,7 @@ public void displayPage() {
         }
     }
 
+    // Navigate to the previous page
     @Override
     public void previousPage() {
         if (currentPage > 0) {
@@ -181,9 +199,11 @@ public void displayPage() {
         }
     }
 
+    // Start the learning module with page navigation options
     public void startLearning() {
         int choice;
 
+        // Loop to display pages and navigate until the user chooses to exit
         do {
             displayPage();
             String[] options = {"Previous", "Next", "Exit"};
@@ -199,6 +219,7 @@ public void displayPage() {
                 options[1]
             );
 
+            // Handle user choice for navigation
             if (choice == 0) {
                 previousPage();
             } else if (choice == 1) {
@@ -207,9 +228,10 @@ public void displayPage() {
                 choice = 2;
             }
 
-        } while (choice != 2);
+        } while (choice != 2); // Exit when user chooses "Exit"
     }
 
+    // Open the learning module and start the content display
     @Override
         public void openModule() {
         startLearning();
