@@ -21,8 +21,8 @@ public class Quiz extends JFrame implements ModuleAction {
 
     private String userName;
 
-    private ArrayList<Assessment> questions = new ArrayList<>();
-    private UserFileAccess fileAccess = new UserFileAccess();
+    private ArrayList<Assessment> questions = new ArrayList<>(); // List to hold quiz questions
+    private UserFileAccess fileAccess = new UserFileAccess(); // To read and write user scores
 
     private int oldScore;
     private int currentQuestion = 0;
@@ -36,6 +36,7 @@ public class Quiz extends JFrame implements ModuleAction {
         this.userName = name;
         this.oldScore = score;
 
+        // Set up the JFrame properties for the quiz window
         setSize(AppConfig.PHONE_WIDTH, AppConfig.PHONE_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -45,8 +46,10 @@ public class Quiz extends JFrame implements ModuleAction {
         openModule();
     }
 
+    // Implementation of the openModule method from the ModuleAction interface
     @Override
     public void openModule() {
+        // Show a warning dialog before starting the quiz
         int confirm = JOptionPane.showConfirmDialog(
                 this,
                 "Warning: Your score will reset if you retake the quiz.\nPlease answer carefully.",
@@ -55,35 +58,42 @@ public class Quiz extends JFrame implements ModuleAction {
                 JOptionPane.WARNING_MESSAGE
         );
 
+        // If the user cancels, return to the UserOptions screen without starting the quiz
         if (confirm != JOptionPane.OK_OPTION) {
             dispose();
             new UserOptions(userName, oldScore);
             return;
         }
 
+        // Set up the quiz interface using Swing components
         JPanel panel = new JPanel();
         panel.setBackground(AppConfig.BG);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(30, 20, 20, 20));
 
+        // Title label for the quiz
         JLabel title = new JLabel("Quiz Assessment");
         title.setFont(AppConfig.TITLE_FONT);
         title.setForeground(AppConfig.PRIMARY);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Label to display the current question
         questionLabel = new JLabel();
         questionLabel.setFont(AppConfig.NORMAL_FONT);
         questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Panel to hold the answer options as buttons
         optionsPanel = new JPanel();
         optionsPanel.setBackground(AppConfig.BG);
         optionsPanel.setLayout(new GridLayout(4, 1, 8, 8));
 
+        // Button to allow users to cancel the quiz and return to the UserOptions screen
         JButton cancelBtn = new JButton("Cancel Quiz");
         cancelBtn.setFont(AppConfig.BUTTON_FONT);
         cancelBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         cancelBtn.addActionListener(e -> cancelQuiz());
 
+        // Add components to the main panel with spacing
         panel.add(title);
         panel.add(Box.createVerticalStrut(40));
         panel.add(questionLabel);
@@ -92,18 +102,20 @@ public class Quiz extends JFrame implements ModuleAction {
         panel.add(Box.createVerticalGlue());
         panel.add(cancelBtn);
 
+        // Add the main panel to the JFrame and display the first question
         add(panel);
         displayQuestion();
-        setVisible(true);
+        setVisible(true); // Show the quiz window
     }
 
     private void displayQuestion() {
-        optionsPanel.removeAll();
+        optionsPanel.removeAll(); // Clear previous options
 
-        Assessment q = questions.get(currentQuestion);
+        Assessment q = questions.get(currentQuestion); // Get the current question
 
 questionLabel.setHorizontalAlignment(SwingConstants.CENTER); // center all text
 questionLabel.setVerticalAlignment(SwingConstants.CENTER);   // optional: vertically center
+// Use HTML to format the question text with line breaks and styling
 questionLabel.setText(
     "<html>"
     + "<div style='text-align:center;'>"
@@ -116,8 +128,9 @@ questionLabel.setText(
     + "</html>"
 );
 
-        String[] options = q.getOptions();
+        String[] options = q.getOptions(); // Get the answer options for the current question
 
+        // Create buttons for each answer option and add action listeners to check the selected answer
         for (int i = 0; i < options.length; i++) {
                 JButton optionBtn = new JButton("<html><center>" + options[i] + "</center></html>");
                 optionBtn.setFont(AppConfig.BUTTON_FONT);
@@ -125,43 +138,47 @@ questionLabel.setText(
                 optionBtn.setHorizontalAlignment(SwingConstants.CENTER);
 
                 int selectedAnswer = i;
-                optionBtn.addActionListener(e -> checkAnswer(selectedAnswer));
+                optionBtn.addActionListener(e -> checkAnswer(selectedAnswer)); // Check the answer when the button is clicked
 
-                optionsPanel.add(optionBtn);
+                optionsPanel.add(optionBtn); // Add the option button to the options panel
         }
         
         optionsPanel.revalidate();
         optionsPanel.repaint();
     }
 
+    // Method to check if the selected answer is correct and update the score accordingly
     private void checkAnswer(int selectedAnswer) {
-        Assessment q = questions.get(currentQuestion);
+        Assessment q = questions.get(currentQuestion); // Get the current question
 
-        if (selectedAnswer == q.getCorrectAnswer()) {
+        if (selectedAnswer == q.getCorrectAnswer()) { // If the selected answer is correct, increment the correct count and show a success message
             correctCount++;
             JOptionPane.showMessageDialog(this, "Correct! You earned points.");
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Incorrect.\nCorrect answer: " + q.getOptions()[q.getCorrectAnswer()]);
+                    "Incorrect.\nCorrect answer: " + q.getOptions()[q.getCorrectAnswer()]); // Show an error message with the correct answer if the selected answer is incorrect
         }
 
-        currentQuestion++;
+        currentQuestion++; // Move to the next question
 
+        // If there are more questions, display the next question; otherwise, show the quiz result
         if (currentQuestion < questions.size()) {
             displayQuestion();
         } else {
-            showResult();
+            showResult(); // Show the final result after the last question
         }
     }
 
+    // Method to calculate the final score, display the quiz result, and update the user's score in the file
     private void showResult() {
-        int totalScore = (correctCount * 100) / questions.size();
-        double percentage = ((double) correctCount / questions.size()) * 100;
+        int totalScore = (correctCount * 100) / questions.size(); // Calculate the total score as a percentage of correct answers
+        double percentage = ((double) correctCount / questions.size()) * 100; // Calculate the percentage of correct answers
 
         GamificationEngine engine = new GamificationEngine();
 
         fileAccess.updateUserScore(userName, totalScore);
 
+        // Create a detailed result message that includes the user's name, score, performance evaluation, badge earned, and a motivational message based on the score
         String result =
                 "Quiz Completed!\n\n" +
                 "Name: " + userName + "\n" +
@@ -177,10 +194,11 @@ questionLabel.setText(
 
         JOptionPane.showMessageDialog(this, result, "Quiz Result", JOptionPane.INFORMATION_MESSAGE);
 
-        dispose();
-        new UserOptions(userName, totalScore);
+        dispose(); // Close the quiz window and return to the UserOptions screen with the updated score
+        new UserOptions(userName, totalScore); // Open the UserOptions screen with the updated score
     }
 
+    // Method to handle quiz cancellation, showing a message and returning to the UserOptions screen without updating the score
     private void cancelQuiz() {
         JOptionPane.showMessageDialog(this,
                 "Quiz cancelled. Your score will not be updated.",
@@ -191,6 +209,7 @@ questionLabel.setText(
         new UserOptions(userName, oldScore);
     }
 
+    // Method to load quiz questions into the questions list, creating Assessment objects for each question with the question text, options, correct answer index, and question type
     private void loadQuestions() {
         questions.add(new Assessment("What is e-waste?",
                 new String[]{"Food waste", "Electronic waste", "Plastic waste", "Paper waste"}, 1, "MCQ"));
