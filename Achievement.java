@@ -2,7 +2,7 @@
 Created by: Andrean (103325)
 Role: Member 1 - Data and Storage Lead
 
-Tested by: Ainin (102810)
+Tested by: Ainin (102810), Andrean (103325)
 
 Description:
 1. Displays all users' scores.
