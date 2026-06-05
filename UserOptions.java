@@ -15,13 +15,15 @@ import java.awt.*;
 
 public class UserOptions extends ModuleBase {
 
+    // Constructor to initialize the user options menu with the user's name and score
     public UserOptions(String name, int score) {
         super(name, score);
         openModule();
     }
 
+    // Method to display the user options menu and handle user interactions
     @Override
-    public void openModule() {
+    public void openModule() { // Display the user options menu with buttons for different activities
         JPanel panel = new JPanel();
         panel.setBackground(AppConfig.BG);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -38,12 +40,13 @@ userInfo.setFont(AppConfig.NORMAL_FONT);
 userInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 userInfo.setHorizontalAlignment(SwingConstants.CENTER);
         
-        JButton learningBtn = createButton("View Learning Content");
-        JButton quizBtn = createButton("Take Quiz");
-        JButton achievementBtn = createButton("View Achievements");
-        JButton exitBtn = createButton("Exit");
+        JButton learningBtn = createButton("View Learning Content"); // Button to view learning content
+        JButton quizBtn = createButton("Take Quiz"); // Button to take the quiz
+        JButton achievementBtn = createButton("View Achievements"); // Button to view achievements and score board
+        JButton exitBtn = createButton("Exit"); // Button to exit the program
 
-        learningBtn.addActionListener(e -> {
+        // Action listeners for each button to handle user interactions and navigate to the respective modules
+        learningBtn.addActionListener(e -> { // Navigate to the learning module when the "View Learning Content" button is clicked
             Window w = SwingUtilities.getWindowAncestor(panel);
             if (w != null) w.dispose();
 
@@ -53,22 +56,23 @@ userInfo.setHorizontalAlignment(SwingConstants.CENTER);
             new UserOptions(name, score);
         });
 
-        quizBtn.addActionListener(e -> {
+        quizBtn.addActionListener(e -> { // Navigate to the quiz module when the "Take Quiz" button is clicked
             Window w = SwingUtilities.getWindowAncestor(panel);
             if (w != null) w.dispose();
 
             new Quiz(name, score);
         });
 
-        achievementBtn.addActionListener(e -> {
+        achievementBtn.addActionListener(e -> { // Navigate to the achievement module when the "View Achievements" button is clicked 
             Window w = SwingUtilities.getWindowAncestor(panel);
             if (w != null) w.dispose();
 
             new Achievement(name, score);
         });
 
-        exitBtn.addActionListener(e -> System.exit(0));
+        exitBtn.addActionListener(e -> System.exit(0)); // Exit the program when the "Exit" button is clicked
 
+        // Add components to the panel and display the user options menu
         panel.add(title);
         panel.add(Box.createVerticalStrut(20));
         panel.add(userInfo);
@@ -81,9 +85,11 @@ userInfo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(Box.createVerticalStrut(12));
         panel.add(exitBtn);
 
+        // Display the user options menu in a dialog
         JOptionPane.showOptionDialog(null, panel, "EcoLearn Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
     }
 
+    // Helper method to create buttons with consistent styling
     private JButton createButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(AppConfig.BUTTON_FONT);
