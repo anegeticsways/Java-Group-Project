@@ -2,6 +2,8 @@
 Contributed by Abang Afiq Aiman (103041)
 Role: Member 3 - Engagement Engineer
 
+Tested by Andrean (103325)
+
 Description: 
 Manages logic for badges, points, and motivational elements.
 */
