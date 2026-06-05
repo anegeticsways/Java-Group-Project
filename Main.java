@@ -7,9 +7,6 @@ Description:
 2. It handles user login, displays the main menu, and manages user interactions
 */
 
-// import java.util.Scanner;
-// import java.util.logging.FileHandler;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
