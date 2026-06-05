@@ -102,14 +102,17 @@ public class Quiz extends JFrame implements ModuleAction {
 
         Assessment q = questions.get(currentQuestion);
 
-questionLabel.setHorizontalAlignment(SwingConstants.CENTER);  // ensures JLabel centers all text
+questionLabel.setHorizontalAlignment(SwingConstants.CENTER); // center all text
+questionLabel.setVerticalAlignment(SwingConstants.CENTER);   // optional: vertically center
 questionLabel.setText(
     "<html>"
+    + "<div style='text-align:center;'>"
     + "<b>Question " + (currentQuestion + 1) + " of " + questions.size() + "</b>"
     + "<br><br>"
-    + "<div style='text-align:center;'>[" + q.getQuestionType() + "]</div>"
-    + "<br>"
-    + "<div style='text-align:center;'>" + q.getQuestion() + "</div>"
+    + "[" + q.getQuestionType() + "]"
+    + "<br><br>"
+    + q.getQuestion()
+    + "</div>"
     + "</html>"
 );
 
