@@ -2,6 +2,8 @@
 Contributed by Ainin (102810)
 Role: Member 4 - Assessment Lead
 
+Tested by Andrean (103325)
+
 Description:
 1. Defines the structure for quiz questions and answers.
 2. Supports different question types such as MCQ and True/False.
