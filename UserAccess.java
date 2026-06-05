@@ -9,7 +9,7 @@ Description:
 import java.util.ArrayList;
 
 public interface UserAccess {
-    ArrayList<User> loadUsers();
-    void saveAllUsers(ArrayList<User> users);
-    void updateUserScore(String name, int score);
+    ArrayList<User> loadUsers(); // Method to load all users from storage, returning an ArrayList of User objects
+    void saveAllUsers(ArrayList<User> users); // Method to save all users to storage, taking an ArrayList of User objects as input
+    void updateUserScore(String name, int score); // Method to update a specific user's score, taking the user's name and new score as input
 }
