@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 public class Quiz extends JFrame implements ModuleAction {
 
     private String userName;
+
     private ArrayList<Assessment> questions = new ArrayList<>();
     private UserFileAccess fileAccess = new UserFileAccess();
 
@@ -63,7 +64,7 @@ public class Quiz extends JFrame implements ModuleAction {
         JPanel panel = new JPanel();
         panel.setBackground(AppConfig.BG);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 20, 20, 20));
 
         JLabel title = new JLabel("Quiz Assessment");
         title.setFont(AppConfig.TITLE_FONT);
@@ -76,23 +77,20 @@ public class Quiz extends JFrame implements ModuleAction {
 
         optionsPanel = new JPanel();
         optionsPanel.setBackground(AppConfig.BG);
-        optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-        optionsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        optionsPanel.setLayout(new GridLayout(4, 1, 8, 8));
 
         JButton cancelBtn = new JButton("Cancel Quiz");
         cancelBtn.setFont(AppConfig.BUTTON_FONT);
         cancelBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         cancelBtn.addActionListener(e -> cancelQuiz());
 
-        panel.add(Box.createVerticalGlue());
         panel.add(title);
-        panel.add(Box.createVerticalStrut(30));
+        panel.add(Box.createVerticalStrut(40));
         panel.add(questionLabel);
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(30));
         panel.add(optionsPanel);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(cancelBtn);
         panel.add(Box.createVerticalGlue());
+        panel.add(cancelBtn);
 
         add(panel);
         displayQuestion();
@@ -101,30 +99,31 @@ public class Quiz extends JFrame implements ModuleAction {
 
     private void displayQuestion() {
         optionsPanel.removeAll();
+
         Assessment q = questions.get(currentQuestion);
 
-        questionLabel.setText("<html><center>"
+        questionLabel.setText(
+                "<html><div style='width:300px; text-align:center;'>"
                 + "Question " + (currentQuestion + 1) + " of " + questions.size()
                 + "<br><br>[" + q.getQuestionType() + "]<br>"
                 + q.getQuestion()
-                + "</center></html>");
+                + "</div></html>"
+        );
 
         String[] options = q.getOptions();
 
         for (int i = 0; i < options.length; i++) {
-            JButton optionBtn = new JButton(options[i]);
-            optionBtn.setFont(AppConfig.BUTTON_FONT);
-            optionBtn.setFocusPainted(false);
-            optionBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            optionBtn.setMaximumSize(new Dimension(250, 40));
+                JButton optionBtn = new JButton("<html><center>" + options[i] + "</center></html>");
+                optionBtn.setFont(AppConfig.BUTTON_FONT);
+                optionBtn.setFocusPainted(false);
+                optionBtn.setHorizontalAlignment(SwingConstants.CENTER);
 
-            int selectedAnswer = i;
-            optionBtn.addActionListener(e -> checkAnswer(selectedAnswer));
+                int selectedAnswer = i;
+                optionBtn.addActionListener(e -> checkAnswer(selectedAnswer));
 
-            optionsPanel.add(Box.createVerticalStrut(8));
-            optionsPanel.add(optionBtn);
+                optionsPanel.add(optionBtn);
         }
-
+        
         optionsPanel.revalidate();
         optionsPanel.repaint();
     }
