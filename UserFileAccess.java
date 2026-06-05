@@ -16,60 +16,60 @@ import javax.swing.JOptionPane;
 
 public class UserFileAccess implements UserAccess {
 
-    // Define the file path for data persistence
-    private static final String FILE_PATH = "userdata.txt";
+    private static final String FILE_PATH = "userdata.txt"; // Path to the file where user data is stored
 
+    // Method to load user data from the file, returning an ArrayList of User objects
     @Override
     public ArrayList<User> loadUsers() {
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>(); // Initialize an empty ArrayList to hold the User objects
 
+        // Try to read the user data from the file, creating User objects for each line of data and adding them to the users list
         try {
             File file = new File(FILE_PATH);
 
-            // Create the file if it does not exist on the first run
+            // If the file does not exist, create a new file to store user data
             if (!file.exists()) {
                 file.createNewFile();
             }
 
+            // Use a BufferedReader to read the file line by line, parsing each line to create User objects and adding them to the users list
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
 
-            // Read the file line by line
+            //  Read each line of the file
             while ((line = br.readLine()) != null) {
-                line = line.trim();
+                line = line.trim(); // Remove leading and trailing whitespace from the line
 
-                // Skip any blank lines in the text file
                 if (line.isEmpty()) {
-                    continue;
+                    continue; // Skip empty lines to avoid processing invalid data
                 }
 
-                // Split the line into name and score using the comma delimiter
-                String[] data = line.split(",");
+                String[] data = line.split(","); // Split the line into parts using a comma as the delimiter, expecting the format "name,score"
 
+                // Check if the line contains exactly two parts 
                 if (data.length == 2) {
-                    String name = data[0];
-                    int score = Integer.parseInt(data[1]);
-                    users.add(new User(name, score)); // Add parsed data as a new User object
+                    String name = data[0]; // The first part is the user's name
+                    int score = Integer.parseInt(data[1]); // The second part is the user's score, which is parsed from a string to an integer
+                    users.add(new User(name, score)); // Create a new User object with the parsed name and score, and add it to the users list
                 }
             }
 
-            br.close();
+            br.close(); // Close the BufferedReader to free up system resources
 
         } catch (IOException | NumberFormatException e) {
-            // Display an error to the user if the file cannot be read or parsed
-            JOptionPane.showMessageDialog(null, "Error loading user data.");
+            JOptionPane.showMessageDialog(null, "Error loading user data."); // Show an error message if there is an issue with reading the file or parsing the score
         }
 
-        return users; // Return the list of loaded users
+        return users;
     }
 
+    // Method to save user data to the file, taking an ArrayList of User objects as input and writing each user's name and score to the file in the format "name,score"
     @Override
     public void saveAllUsers(ArrayList<User> users) {
         try {
-            // Open FileWriter (this overwrites the existing file)
-            FileWriter fw = new FileWriter(FILE_PATH);
+            FileWriter fw = new FileWriter(FILE_PATH); // Create a FileWriter to write to the specified file path, which will overwrite the existing file content
 
-            // Loop through all users and write them to the file in "name,score" format
+            // Write each user's name and score to the file, separating them with a comma and adding a newline after each user
             for (User u : users) {
                 fw.write(u.getName() + "," + u.getScore() + "\n");
             }
@@ -77,24 +77,23 @@ public class UserFileAccess implements UserAccess {
             fw.close();
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error saving user data.");
+            JOptionPane.showMessageDialog(null, "Error saving user data."); // Show an error message if there is an issue with writing to the file
         }
     }
 
+    // Method to update a specific user's score
     @Override
     public void updateUserScore(String name, int score) {
-        // Load the current list of users
-        ArrayList<User> users = loadUsers();
+        ArrayList<User> users = loadUsers(); // Load the existing users from the file to get the current list of users
 
-        // Search for the specific user by name and update their score
+        // Iterate through the list of users to find the user with the specified name, and update their score if found
         for (User u : users) {
             if (u.getName().equalsIgnoreCase(name)) {
                 u.setScore(score);
-                break; // Stop searching once the user is found
+                break;
             }
         }
 
-        // Save the updated list back to the text file
-        saveAllUsers(users);
+        saveAllUsers(users); // Save the updated list of users back to the file to ensure that the changes are persisted
     }
 }
