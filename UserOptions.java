@@ -81,7 +81,7 @@ userInfo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(Box.createVerticalStrut(12));
         panel.add(exitBtn);
 
-        JOptionPane.showMessageDialog(null, panel, "EcoLearn Menu", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showOptionDialog(null, panel, "EcoLearn Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
     }
 
     private JButton createButton(String text) {
