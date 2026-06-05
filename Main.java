@@ -36,9 +36,11 @@ public class Main extends JFrame {
         title.setForeground(AppConfig.PRIMARY);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel subtitle = new JLabel("<html><center>E-Waste Education<br>and Awareness App</center></html>");
-        subtitle.setFont(AppConfig.NORMAL_FONT);
-        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel subtitle = new JLabel("<html><div style='text-align:center;'>E-Waste Education<br>and Awareness App</div></html>");
+subtitle.setFont(AppConfig.NORMAL_FONT);
+subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+subtitle.setHorizontalAlignment(SwingConstants.CENTER);
+
 
         nameField = new JTextField();
         nameField.setMaximumSize(new Dimension(300, 40));
