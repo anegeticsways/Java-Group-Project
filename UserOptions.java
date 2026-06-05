@@ -33,10 +33,11 @@ public class UserOptions extends ModuleBase {
         title.setForeground(AppConfig.PRIMARY);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel userInfo = new JLabel("<html><center>User: " + name + "<br>Score: " + score + "/100</center></html>");
-        userInfo.setFont(AppConfig.NORMAL_FONT);
-        userInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+       JLabel userInfo = new JLabel("<html><div style='text-align:center;'>User: " + name + "<br>Score: " + score + "/100</div></html>");
+userInfo.setFont(AppConfig.NORMAL_FONT);
+userInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+userInfo.setHorizontalAlignment(SwingConstants.CENTER);
+        
         JButton learningBtn = createButton("View Learning Content");
         JButton quizBtn = createButton("Take Quiz");
         JButton achievementBtn = createButton("View Achievements");
